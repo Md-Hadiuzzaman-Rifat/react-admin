@@ -13,23 +13,19 @@ import PrivateRoute from "./components/privateRoute/PrivateRoute";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
-  const { user } = useContext(AuthContext);
-  console.log(user);
+  const {user}=useContext(AuthContext) 
 
   return (
     <div className={darkMode ? "app dark" : "app"}>
       <BrowserRouter>
         <Routes>
           <Route path="/">
-            <Route
-              index
-              element={
-                <PrivateRoute>
-                  <Home />
-                </PrivateRoute>
-              }
-            />
-            <Route path="login" element={<Login />} />
+            <Route index element={<Home />} />
+    {/* private router  */}
+    
+            <Route path="/*" element={<PrivateRoute />} > 
+              <Route path="login" element={ <Login/> }></Route>
+            </Route>
             <Route path="users">
               <Route index element={<List />} />
               <Route path=":userId" element={<Single />} />

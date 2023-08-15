@@ -17,6 +17,9 @@ const AuthContextProvider = ({children}) => {
     return (
         <AuthContext.Provider value={{user:state.currentUser, dispatch}}>
             {children}
+            {
+                console.log(state.currentUser)
+            }
         </AuthContext.Provider>
     );
 };

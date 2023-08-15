@@ -15,18 +15,19 @@ import { Link, useNavigate } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
 import { getAuth, signOut } from "firebase/auth";
+import { AuthContext } from "../../context/authModalContext";
 
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
+  const {dispatch:dispatch2}= useContext(AuthContext)
 
   const auth=getAuth()
   const navigate=useNavigate()
 
   const handleSignOut=async()=>{
-    // console.log("Hello World");
     await signOut(auth)
-    localStorage.setItem("user", null)
-    navigate('/login')
+    dispatch2({type:"LOGOUT"})
+    navigate("/login");
   }
 
   return (
