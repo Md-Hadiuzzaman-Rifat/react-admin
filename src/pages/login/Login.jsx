@@ -41,13 +41,13 @@ const Login = () => {
         <input
           type="text"
           id="email"
-          placeholder="Enter Email"
+          placeholder="hadi@gmail.com"
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="text"
           id="password"
-          placeholder="Enter Password"
+          placeholder="hadi123"
           onChange={(e) => setPassword(e.target.value)}
         />
         <button onClick={handleSubmit}>Submit</button>

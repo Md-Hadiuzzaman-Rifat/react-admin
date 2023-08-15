@@ -9,10 +9,11 @@ import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/authModalContext";
+import PrivateRoute from "./components/privateRoute/PrivateRoute";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
-  const {user}=useContext(AuthContext) 
+  const { user } = useContext(AuthContext);
   console.log(user);
 
   return (
@@ -20,7 +21,14 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/">
-            <Route index element={<Home />} />
+            <Route
+              index
+              element={
+                <PrivateRoute>
+                  <Home />
+                </PrivateRoute>
+              }
+            />
             <Route path="login" element={<Login />} />
             <Route path="users">
               <Route index element={<List />} />
