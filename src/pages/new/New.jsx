@@ -2,10 +2,46 @@ import "./new.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import {
+  addDoc,
+  collection,
+  doc,
+  serverTimestamp,
+  setDoc,
+  getFirestore
+} from "firebase/firestore";
+import initalizeApp from "../../firebase/firebase.initialize";
+
+const auth=getAuth()
+const db=getFirestore(initalizeApp)
 
 const New = ({ inputs, title }) => {
   const [file, setFile] = useState("");
+  const [data, setData] = useState({})
+
+  useEffect(()=>{
+
+  })
+
+  const handleSubmit=async(e)=>{
+    e.preventDefault()
+    console.log(data);
+    try{
+      const res= await createUserWithEmailAndPassword(auth, data.email ,data.displayname)
+      console.log(res);
+      await setDoc(doc(db, "Seller",res.user?.uid), data);
+    }catch(err){
+      console.log(err);
+    }
+  }
+
+  const handleInput=(e)=>{
+    const id = e.target.id;
+    const value = e.target.value;
+    setData({...data, [id]:value, file})
+  }
 
   return (
     <div className="new">
@@ -27,7 +63,7 @@ const New = ({ inputs, title }) => {
             />
           </div>
           <div className="right">
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="formInput">
                 <label htmlFor="file">
                   Image: <DriveFolderUploadOutlinedIcon className="icon" />
@@ -43,10 +79,12 @@ const New = ({ inputs, title }) => {
               {inputs.map((input) => (
                 <div className="formInput" key={input.id}>
                   <label>{input.label}</label>
-                  <input type={input.type} placeholder={input.placeholder} />
+                  <input type={input.type} id={input.id}  placeholder={input.placeholder} onChange={handleInput}/>
                 </div>
               ))}
-              <button>Send</button>
+              <button type="submit">
+                Send
+              </button>
             </form>
           </div>
         </div>
